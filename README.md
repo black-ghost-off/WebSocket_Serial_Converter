@@ -1,4 +1,5 @@
 # WebSocket / Serial Converter
+![view1](./diagram.png)<br>
 A small utility for transferring data from/to a Serial port (for example, Arduino) using the WebSocket protocol. There is also support for grafana websocket data source.
 ## Launch: 
 #### 1 way
