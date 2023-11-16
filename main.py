@@ -66,14 +66,14 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
                 self.write_message(readed_line.decode("utf-8"))
             elif(self.datafilter == "grafana"):
                 try:
-                    json_parsed = json.loads(readed_line.decode("utf-8").replace("'", '"'))
+                    json_parsed = json.loads(readed_line.decode("utf-8"))
                     now = datetime.now(timezone.utc)
                     epoch = datetime(1970, 1, 1, tzinfo=timezone.utc) # use POSIX epoch
                     posix_timestamp_millis = (now - epoch) // timedelta(milliseconds=1)
                     json_parsed["timestamp"] = posix_timestamp_millis
                     self.write_message(str(json_parsed).replace("'", '"'))
-                except AssertionError as error:
-                    pass
+                except Exception as error:
+                    print(error)
             else:
                 pass
 
