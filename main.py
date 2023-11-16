@@ -5,6 +5,8 @@ import tornado.ioloop
 import tornado.web
 import tornado.websocket
 import argparse
+import json
+from datetime import datetime, timezone, timedelta
 
 
 def serial_ports():
@@ -29,15 +31,20 @@ def serial_ports():
 
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
     conn = None
+
+    datafilter = "None"
+
     def open(self):
         print("open success")
         if(self.request.path != "/" and (self.conn == None or not(self.conn.is_open))):
-            arguments = self.request.path.split("/", 3)
-            if(arguments[3][0:3] == "dev"):
-                arguments[3] = "/" + arguments[3]
-            self.conn = serial.Serial(arguments[3], str(arguments[2]), parity = arguments[1])
+            arguments = self.request.path.split("/", 4)
+            print(arguments)
+            if(arguments[4][0:3] == "dev"):
+                arguments[4] = "/" + arguments[4]
+            self.conn = serial.Serial(arguments[4], baudrate = int(arguments[3]), parity = arguments[2])
+            self.datafilter = arguments[1]
         # timer that sends data to the front end once per second
-        self.timer = tornado.ioloop.PeriodicCallback(self.send_data, 100)
+        self.timer = tornado.ioloop.PeriodicCallback(self.send_data, 1)
         self.timer.start()
         if(self.request.path == "/"):
             self.write_message(str(serial_ports()))
@@ -54,7 +61,21 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
     def send_data(self):
         if(self.conn != None and self.conn.is_open and self.conn.in_waiting):
-            self.write_message(self.conn.readline())
+            readed_line = self.conn.readline()
+            if(self.datafilter == "None"):
+                self.write_message(readed_line.decode("utf-8"))
+            elif(self.datafilter == "grafana"):
+                try:
+                    json_parsed = json.loads(readed_line.decode("utf-8").replace("'", '"'))
+                    now = datetime.now(timezone.utc)
+                    epoch = datetime(1970, 1, 1, tzinfo=timezone.utc) # use POSIX epoch
+                    posix_timestamp_millis = (now - epoch) // timedelta(milliseconds=1)
+                    json_parsed["timestamp"] = posix_timestamp_millis
+                    self.write_message(str(json_parsed).replace("'", '"'))
+                except AssertionError as error:
+                    pass
+            else:
+                pass
 
     def on_message(self, message):
         print(message)
