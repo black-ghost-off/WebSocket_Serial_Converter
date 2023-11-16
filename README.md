@@ -1,5 +1,5 @@
 # WebSocket / Serial Converter
-A small utility for transferring data from/to a Serial port (for example, Arduino) using the WebSocket protocol.
+A small utility for transferring data from/to a Serial port (for example, Arduino) using the WebSocket protocol. There is also support for grafana websocket data source.
 ## Launch: 
 #### 1 way
 ``` bash
@@ -43,10 +43,10 @@ and get info about connected serial devices:
 ```
 To connect to a device
 ```
-ws://localhost:8802/%PARITY%/%BAUDRATE/%SERIAL PORT%
+ws://localhost:8802/%MODE%//%PARITY%/%BAUDRATE/%SERIAL PORT%
 
 For examle:
-ws://localhost:8802/N/115200/dev/ttyUSB0
+ws://localhost:8802/None/N/115200/dev/ttyUSB0
 ```
 ```
 Parity
@@ -55,6 +55,10 @@ E - Even
 O - Odd
 M - Mark
 S - Space
+
+Mode
+None - Raw data output/input
+Grafana - Checks for json data, add posix timestamp to data
 ```
 
 Messages from the server to the client are sent only after **\n** from device
