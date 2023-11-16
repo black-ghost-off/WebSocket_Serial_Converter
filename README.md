@@ -29,4 +29,32 @@ Build docker image
 ``` bash
 $ sudo docker-compose up -d
 ```
+## How it works
+connect via **postman** to
+```
+ws://localhost:%PORT%/
 
+For example:
+ws://localhost:8802/
+```
+and get info about connected serial devices:
+``` Example!
+['/dev/ttyUSB0']
+```
+To connect to a device
+```
+ws://localhost:8802/%PARITY%/%BAUDRATE/%SERIAL PORT%
+
+For examle:
+ws://localhost:8802/N/115200/dev/ttyUSB0
+```
+```
+Parity
+N - None
+E - Even
+O - Odd
+M - Mark
+S - Space
+```
+
+Messages from the server to the client are sent only after **\n** from device
