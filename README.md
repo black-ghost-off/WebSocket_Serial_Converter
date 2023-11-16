@@ -56,9 +56,9 @@ O - Odd
 M - Mark
 S - Space
 
-Mode
-None - Raw data output/input
-Grafana - Checks for json data, add posix timestamp to data
+Modes
+1. None - Raw data output/input
+2. Grafana - Checks for json data, add posix timestamp to data
 ```
 
 Messages from the server to the client are sent only after **\n** from device
