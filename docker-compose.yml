@@ -1,0 +1,12 @@
+services:
+
+  server:
+    image: serialtowebsocketserver
+    build:
+      context: .
+      dockerfile: ./dockerfile
+    volumes:
+      - /dev:/dev
+    ports:
+      - "8800:8800"
+    privileged: true
