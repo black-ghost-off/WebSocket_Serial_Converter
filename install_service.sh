@@ -11,13 +11,13 @@ else
     if [ $ret -eq 0 ]; then
         echo "greet"
         echo "pwd     : $($USER)"
-        rm -f /etc/systemd/system/SerialToWebSocket.service
+        rm -f /etc/systemd/system/WebSocket_Serial_Converter.service
 
         python -m pip install -r $(pwd)/requirements.txt
 
-cat >/etc/systemd/system/SerialToWebSocket.service <<EOL
+cat >/etc/systemd/system/WebSocket_Serial_Converter.service <<EOL
 [Unit]
-Description=Serial port to WebSocket Server convertor
+Description=WebSocket Serial Converter
 [Service]
 ExecStart=$(which python) $(pwd)/main.py --port $1 
 [Install]

@@ -1,7 +1,7 @@
 services:
 
   server:
-    image: serialtowebsocketserver
+    image: websocket_serial_converter
     build:
       context: .
       dockerfile: ./dockerfile
