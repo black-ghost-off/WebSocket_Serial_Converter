@@ -30,6 +30,13 @@ Build docker image
 ``` bash
 $ sudo docker-compose up -d
 ```
+#### 5 way
+Run docker image pulled from dockerHUB
+``` bash
+$ sudo docker run -d -v /dev:/dev -p %PORT%:8800 --privileged blackghostoff/websocketserialconverter
+```
+
+
 ## How it works
 connect via **postman** to
 ```
