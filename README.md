@@ -44,7 +44,7 @@ and get info about connected serial devices:
 ```
 To connect to a device
 ```
-ws://localhost:8802/%MODE%//%PARITY%/%BAUDRATE/%SERIAL PORT%
+ws://localhost:8802/%MODE%/%PARITY%/%BAUDRATE/%SERIAL PORT%
 
 For examle:
 ws://localhost:8802/None/N/115200/dev/ttyUSB0
